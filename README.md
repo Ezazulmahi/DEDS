@@ -2,9 +2,9 @@
 
 This repository holds the data behind the paper **"Diffusion-enhanced DCT steganography: reward-guided cover generation for increased embedding capacity with exact lossless-channel recovery"** (DEDS).
 
-It contains the cover images, the LoRA adapter, the prompt bank, the embedder used in the paper (margin projected parity embedding, called v5 in the file names), every evaluation script, and the per image result files that the tables and figures were computed from. The stego images are too large for the repository itself and are attached to the [v2.0 release](https://github.com/Ezazulmahi/Dataset/releases/tag/v2.0) as zip files.
+It contains the cover images, the LoRA adapter, the prompt bank, the embedder used in the paper (margin projected parity embedding, called v5 in the file names), every evaluation script, and the per image result files that the tables and figures were computed from. The stego images are too large for the repository itself and are attached to the [v2.0 release](https://github.com/Ezazulmahi/DEDS/releases/tag/v2.0) as zip files.
 
-The fine tuning code is in a separate repository: https://github.com/Imraj-Rabbani/P3-Image-Steganography-Pipeline
+The fine tuning code is in `diffusion/training/` (also published at https://github.com/Imraj-Rabbani/P3-Image-Steganography-Pipeline), and the later checks that generate new covers with the adapter are in `diffusion/checks/`. See `diffusion/README.md`.
 
 ## What is where
 
@@ -74,7 +74,7 @@ extra_checks/                derivation checks, photographs and processed covers
 
 ## Stego images
 
-The [v2.0 release](https://github.com/Ezazulmahi/Dataset/releases/tag/v2.0) has five zip files:
+The [v2.0 release](https://github.com/Ezazulmahi/DEDS/releases/tag/v2.0) has five zip files:
 
 | File | Images | Contents |
 |---|---|---|
@@ -98,7 +98,7 @@ The scripts still hold the folder paths of our own machine (for example `F:\scir
 
 * All images are 256 by 256 PNG files. The covers are exactly the images the paper was evaluated on.
 * Training images came from the public `gmongaras/Imagenet21K_Recaption` dataset on Hugging Face and are not redistributed here.
-* The steganalysis code, settings, logs and per image scores are in `steganalysis/`; the training images, trained detectors and features are attached to the [v3.0 release](https://github.com/Ezazulmahi/Dataset/releases/tag/v3.0). See `steganalysis/README.md`.
+* The steganalysis code, settings, logs and per image scores are in `steganalysis/`; the training images, trained detectors and features are attached to the [v3.0 release](https://github.com/Ezazulmahi/DEDS/releases/tag/v3.0). See `steganalysis/README.md`.
 
 ## Licence
 
