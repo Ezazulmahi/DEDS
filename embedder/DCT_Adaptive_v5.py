@@ -62,7 +62,8 @@ Design
   Verify-fix  : after IDCT→uint8→re-DCT, every embedded bit is verified and
                 corrected in the Y pixel domain.  The colour round-trip is
                 handled exactly by _exact_y_repair, so this loop sees only
-                IDCT rounding and converges in ≤ 12 iterations at any size.
+                IDCT rounding; it stops after MAX_FIX_ITERATIONS (60) passes
+                (at most 27 were needed on the 2,000-image corpus run).
   Header      : 64 bits across 2 blocks (0,0)(0,1) = 32 bits each.
                 Layout: magic(16) | payload_bits(24) | K(6) |
                         version(4) | CRC14(14).
@@ -367,8 +368,8 @@ def _verify_and_fix(slot_order: list,
     Verify and fix embedded bits after IDCT→uint8→re-DCT roundtrip.
 
     This loop runs entirely in the luminance (Y) pixel domain, so the only
-    source of bit-flip is IDCT→uint8 rounding.  It converges reliably in
-    ≤ 12 iterations for any message size.  The lossy BGR↔YCrCb colour
+    source of bit-flip is IDCT→uint8 rounding.  It stops after
+    MAX_FIX_ITERATIONS (60) passes; at most 27 were needed on the corpus run.  The lossy BGR↔YCrCb colour
     round-trip is handled separately (and exactly) by _exact_y_repair at
     the end of embed(), so it never enters this loop.
 
