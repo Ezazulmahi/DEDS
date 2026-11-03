@@ -61,6 +61,7 @@ def clip_similarity(name):
         ims = [cv2.cvtColor(cv2.imread(x), cv2.COLOR_BGR2RGB) for x in paths]
         with torch.no_grad():
             e = m.get_image_features(**p(images=ims, return_tensors="pt"))
+        e = e if hasattr(e, "norm") else e.pooler_output   # transformers >= 5 returns an output object
         return torch.nn.functional.normalize(e, dim=-1)
     sims = {}
     for b in range(0, len(IDX), 20):

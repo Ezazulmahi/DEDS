@@ -44,12 +44,17 @@ for d in ("data_filtered", "data_unfiltered"):
     n = sum(1 for _ in open(A / d / "processed_dataset" / "manifest.csv", encoding="utf-8")) - 1
     print(f"{d}: {n} training images", flush=True)
 
-# 2-3. train and evaluate each variant
+# 2. train every variant first, so an evaluation problem cannot hold up the GPU training
 for name, data, args in VARIANTS:
     out = A / "runs" / name
     if not (out / "final" / "unet.pt").exists():
-        run([PY, "-I", "-X", "utf8", A / "code" / "finetune.py", "--steps", "5000", "--checkpoint_every", "5000",
-             "--output_dir", out, *args], A / data, A / "runs" / f"{name}.log")
-    run([PY, "-I", "-X", "utf8", A / "eval_variant.py", name, out / "final"], A, A / "runs" / f"{name}_eval.log")
+        # checkpoints every 1,000 steps; after an interruption training resumes from the latest complete one
+        done = sorted(p for p in out.glob("checkpoint_step*") if (p / "ema.pt").exists()) if out.exists() else []
+        resume = ["--resume", done[-1]] if done else []
+        run([PY, "-I", "-X", "utf8", A / "code" / "finetune.py", "--steps", "5000", "--checkpoint_every", "1000",
+             "--output_dir", out, *resume, *args], A / data, A / "runs" / f"{name}.log")
+# 3. evaluate each variant, then the reference covers
+for name, _, _ in VARIANTS:
+    run([PY, "-I", "-X", "utf8", A / "eval_variant.py", name, A / "runs" / name / "final"], A, A / "runs" / f"{name}_eval.log")
 run([PY, "-I", "-X", "utf8", A / "eval_variant.py", "--reference"], A, A / "runs" / "reference_eval.log")
 print("ablation complete", flush=True)

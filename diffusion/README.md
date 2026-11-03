@@ -33,3 +33,9 @@ Later checks that use the trained adapter. Folder paths at the top of each scrip
   reward without the anchor, anchor without the reward, and ordinary fine-tuning on unfiltered images.
   `run_ablation.py` runs every step; `eval_variant.py` evaluates a trained variant on prompts 0, 5, …, 995.
 * `common.py`: shared helpers (cover statistics, spectra, embedding wrappers).
+
+## Results added after the ablation (November 2026)
+* `checks/ablation/results_ablation_eval.csv`: one row per cover for the baseline, the paper's model and the four
+  5,000-step adapters on prompts 0, 5, ..., 995 (Supplementary Table S18).
+* `checks/texture_photos/`: the texture-photograph check on the Describable Textures Dataset (5,640 photographs),
+  with per-photo statistics and the 1,000-pair matched-payload results (Supplementary Table S17).
