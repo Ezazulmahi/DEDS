@@ -39,3 +39,10 @@ Later checks that use the trained adapter. Folder paths at the top of each scrip
   5,000-step adapters on prompts 0, 5, ..., 995 (Supplementary Table S18).
 * `checks/texture_photos/`: the texture-photograph check on the Describable Textures Dataset (5,640 photographs),
   with per-photo statistics and the 1,000-pair matched-payload results (Supplementary Table S17).
+
+## Results added in revision
+* `checks/ablation/run_revision.py`: two repeat runs of the full objective (`full_run2`, `full_run3`) and the full
+  objective on the unfiltered data (`reward_unfiltered`), which completes a two by two design of reward and data
+  filter. Their rows are in `checks/ablation/results_ablation_eval.csv` (Supplementary Table S18). The training
+  script sets no seed, so these runs differ in random initialisation and data order; the seeds were not recorded.
+

@@ -39,3 +39,7 @@ Every `results/<detector>/<set>_scores.csv` has one row per image with `label` (
 ## Running the code
 
 Scripts are numbered in the order they were run. They still contain the folder paths of our machine (for example `F:\Steganalyzer_SOTA_2026`) near the top; change them to where you unpack the release. Main dependencies: PyTorch, NumPy, SciPy, OpenCV, scikit-learn, conseal, sealwatch, jpeglib.
+
+## Matched test of the paper's embedder (added in revision)
+
+The DEDS rows of Table 4 now use the paper's embedder at its own margin (0.15) with 0.4 bits per pixel of random bits in both training and testing, the same covers and payload as the other schemes. `code/07c_build_matched_deds_v5.py` builds the stego images with a frozen copy of the embedder (`code/embedder_v5_snapshot.py`; settings in `deds_v5m_embedder_settings.json`, every image read back bit for bit, log in `deds_v5m_embed_log.csv`), `code/10c_srm_extract_deds_v5m.py` extracts the SRM features, and `code/14c_paper_outputs_matched.py` draws Fig. 4 and writes `paper_outputs/table4_detectability.csv`. Scores: `results/srnet_kv_matched-deds_v5m*/` (SRNet-KV, set `paper_ft` for the matched stego, `v5_paper_ft` for the corpus stego) and `results/srm_fld/deds_v5m_*`. Results: SRM AUC 1.000 (validation-threshold P_E 0.007), SRNet-KV AUC 0.999 (P_E 0.023). `paper_outputs/table3_*` are the earlier version, with the DEDS detector trained at margin 0.25.
