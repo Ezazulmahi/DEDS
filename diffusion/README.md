@@ -45,4 +45,9 @@ Later checks that use the trained adapter. Folder paths at the top of each scrip
   objective on the unfiltered data (`reward_unfiltered`), which completes a two by two design of reward and data
   filter. Their rows are in `checks/ablation/results_ablation_eval.csv` (Supplementary Table S18). The training
   script sets no seed, so these runs differ in random initialisation and data order; the seeds were not recorded.
+* `checks/ablation/seeded/`: two further runs of the full objective with recorded seeds (2026 and 2027).
+  `make_seeded.py` builds `finetune_seeded.py` from the training script by fixing the random number generators of
+  Python, NumPy and PyTorch and the DataLoader order; `run_seeded.sh` trains both runs and evaluates them. Their rows
+  (`full_seed2026`, `full_seed2027`) are in `checks/ablation/results_ablation_eval.csv`. Over the five runs of the full
+  objective the eligible count is 17.79 +/- 0.22 per block and every message is recovered exactly.
 
