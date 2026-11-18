@@ -12,7 +12,7 @@ skips finished items when run again. Folder paths near the top of each script po
 | `code/rev_abl_detect.py` | Supplementary Table S18, last column | `results/rev_abl_detect.csv`: SRM AUC of DEDS at matched payload on the covers of every ablation variant, five-fold cross-validation over pairs |
 | `code/srm_sanity.py` | Results, Detectability; Methods | controls for the matched SRM result: true labels AUC 1.000, shuffled labels 0.487, two halves of the covers 0.521 |
 | `code/fig2_larger_labels.py`, `code/fig3_s1_larger_labels.py` | Figs. 2, 3 and S1 | the same figures with larger labels |
-| `code/crypto_roundtrip.py` | Methods, Encrypted messages; Supplementary Table S23 | `results/crypto_roundtrip.csv`: AES-256-GCM with the key wrapped by RSA-2048 OAEP, embedded in 100 covers at each of 0.30, 0.40 and 0.60 bits per pixel, extracted from the reloaded PNG and decrypted (300 of 300 exact), with pixel and block tamper tests (never a wrong message). Needs the Python `cryptography` package; test keys are generated per run and not saved |
+| `code/crypto_roundtrip.py` | Methods, Securing the message by encryption (side experiment); Supplementary Table S23 | `results/crypto_roundtrip.csv`: AES-256-GCM with the key wrapped by RSA-2048 OAEP, embedded in 100 covers at each of 0.30, 0.40 and 0.60 bits per pixel, extracted from the reloaded PNG and decrypted (300 of 300 exact), with pixel and block tamper tests (never a wrong message). Needs the Python `cryptography` package; test keys are generated per run and not saved |
 
 The matched steganalysis of the paper's embedder (margin 0.15, 0.4 bits per pixel in training and testing) is in
 `steganalysis/` (scripts `07c`, `10c` and `14c`, results `srnet_kv_matched-deds_v5m*` and `srm_fld/deds_v5m_*`).
