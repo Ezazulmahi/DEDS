@@ -20,8 +20,12 @@ be recorded. Folder names refer to this repository.
 * Script: `diffusion/training/finetune.py`, unchanged. Rank-4 LoRA (alpha 8, dropout 0.05) on the query, key and value
   projections of every U-Net attention layer; loss weights lambda_mid = 0.005 and lambda_anchor = 1; batch 2 with 4
   accumulation steps; AdamW, learning rate 1e-5 with 1,000 warm-up steps; 80,000 steps.
-* The training script sets no random seed, so repeated runs differ; the ablation and the repeated runs of the revision
-  are independent runs of the same script.
+* The training script sets no random seed, so repeated runs differ; the ablation and the first two repeated runs of
+  the revision are independent runs of the same script.
+* Two further repeats of the full objective (5,000 steps) used recorded seeds 2026 and 2027, set in a copy of the
+  script that fixes the Python, NumPy and PyTorch generators and the data order before the adapter is created
+  (`diffusion/checks/ablation/seeded/`). A second start of seed 2026 matched the first training steps to four decimal
+  places; the remaining differences come from non-deterministic GPU arithmetic.
 * Released weights: the final adapter in `lora_weights/`. Intermediate checkpoints and the moving-average weights were
   not released; the covers were generated from the final-step weights, not the moving average.
 
