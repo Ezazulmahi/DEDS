@@ -34,7 +34,7 @@ def work(task):
     cover = cv2.imread(str(C.TRAIN_COVERS / name))
     h, w = cover.shape[:2]
     target_bits = int(round(target_bpp * h * w)); K = max(1, min(_D.MAX_K, int(np.ceil(target_bits / 1022)) - 1))
-    msg = "".join(random.Random(910000 + order).choice(ALPHABET) for _ in range(target_bits // 8)); n_bits = 8 * len(msg)
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(target_bits // 8)))(random.Random(910000 + order)); n_bits = 8 * len(msg)
     row = {"image": name, "order": order, "target_bpp": target_bpp, "K": K, "n_bits": n_bits, "bpp": n_bits / (h * w), "error": ""}
     orig = _D._compute_K; _D._compute_K = lambda blocks, K=K: K
     t0 = time.perf_counter()

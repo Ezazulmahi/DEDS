@@ -39,7 +39,7 @@ def work(task):
     name = f"{i:03d}.png"
     cover = cv2.imread(os.path.join(E.CORP, "finetuned", name))
     nb = min(max(1, int(round(bpp * 65536 / 8))), (N_SLOTS - 32) // 8)
-    msg = "".join(random.Random(777000 + i).choice(E.ALPHABET) for _ in range(nb))
+    msg = (lambda _rng: "".join(_rng.choice(E.ALPHABET) for _ in range(nb)))(random.Random(777000 + i))
     t = time.time()
     with contextlib.redirect_stdout(io.StringIO()):
         stego = D.embed(cover, msg, mode="robust", verbose=False)

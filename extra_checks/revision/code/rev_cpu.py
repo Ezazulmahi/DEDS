@@ -6,7 +6,7 @@ r"""Revision analyses on the CPU (reviewer comments R1.2, R1.6, R2.1, R2.3, R2.5
   rd        (A1, A2) rate-distortion sweep: each cover embedded with its full slot capacity at K = 1, 3, ..., 37, 38,
                  PNG round trip, exact recovery and PSNR_Y; equal-quality capacity is read from these curves
 usage: python rev_cpu.py offsets|split|rd"""
-import os, sys, io, glob, random, string, contextlib
+import os, zlib, sys, io, glob, random, string, contextlib
 import numpy as np, pandas as pd, cv2
 sys.path.insert(0, r"F:\DEDS_extra_checks")
 import common as C
@@ -26,7 +26,7 @@ def _init():
 
 
 def text_bits(n_bits, seed):
-    msg = "".join(random.Random(seed).choice(ALPHABET) for _ in range(n_bits // 8)).encode()
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n_bits // 8)))(random.Random(seed)).encode()
     return [int(b) for byte in msg for b in f"{byte:08b}"]
 
 
@@ -124,7 +124,7 @@ def rd_work(task):
     rows = []
     for K in KGRID:
         n = 8 * (1022 * (K + 1) // 8)
-        bits = text_bits(n, 930000 + K)
+        bits = text_bits(n, 930000 + 100 * K + (zlib.crc32(key.encode()) % 10**6) * 10**4)  # one message per cover and payload
         try:
             out, passes = C.embed_bits(D, cover, bits, K)
             out = C.png_roundtrip(out, os.path.join(OUT, "rev_tmp", f"{key.replace(':', '_')}.png"))
@@ -152,4 +152,4 @@ if __name__ == "__main__":
     elif what == "rd":
         tasks = [(k, kind, src) for k, (kind, src) in cover_sets().items()]
         # run_resumable skips by the first element; rows are keyed per K, so record the cover key as done via 'cover'
-        sys.exit(0 if C.run_resumable(tasks, rd_work, os.path.join(OUT, "rev_rd.csv"), init=_init, workers=3, key="cover") else 1)
+        sys.exit(0 if C.run_resumable(tasks, rd_work, os.path.join(OUT, "rev_rd.csv"), init=_init, workers=int(os.environ.get("RD_WORKERS", "3")), key="cover") else 1)

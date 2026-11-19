@@ -78,7 +78,7 @@ def real_cover(task):
     name = f"{i:03d}.png"
     Y = cv2.split(cv2.cvtColor(cv2.imread(os.path.join(CORP, cov, name)), cv2.COLOR_BGR2YCrCb))[0]
     blocks, h8, w8 = D._to_blocks(Y)
-    msg = "".join(random.Random(424242 + i).choice(ALPHABET) for _ in range(n // 8))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n // 8)))(random.Random(424242 + i))
     bits = np.array([(b >> (7 - k)) & 1 for b in msg.encode() for k in range(8)])
     I, J, U, V, Q = D._slot_arrays(D._build_slot_order(K, 32, 32)[:len(bits)])
     C = blocks[I, J, U, V]
@@ -113,7 +113,7 @@ def reliability(task):
     name, lvl = task
     i = int(name[:3])
     nb = min(max(1, int(round(lvl * 65536 / 8))), (1022 * 39 - 32) // 8)
-    msg = "".join(random.Random(777000 + i).choice(ALPHABET) for _ in range(nb))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(nb)))(random.Random(777000 + i))
     F = D._frame(msg.encode()); L = len(F)
     st = cv2.imread(os.path.join(HERE, "stego_robust", name))
     target = np.resize(F, 1022 * 39)

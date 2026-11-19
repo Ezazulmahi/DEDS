@@ -71,7 +71,7 @@ def embed_one(cover, msg, K):
 def embed_work(task):
     key, j, rel = task
     K, n_bits = TASKS[j]
-    msg = "".join(random.Random(520000 + j).choice(ALPHABET) for _ in range(n_bits // 8))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n_bits // 8)))(random.Random(520000 + j))
     rows = []
     for kind, path in (("photo", os.path.join(COV, rel.replace("/", "__").replace(".jpg", ".png"))),
                        ("finetuned", os.path.join(C.CORP, "finetuned", f"{j:03d}.png"))):

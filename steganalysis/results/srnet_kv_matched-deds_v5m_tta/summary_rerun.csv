@@ -1,0 +1,2 @@
+run,set,missing_pairs,pairs,auc,auc_ci_low,auc_ci_high,pe_min,acc_at_val_thr,acc_at_margin0,stego_flagged,covers_flagged,tpr_at_fpr5,val_threshold
+srnet_kv_matched-deds_v5m_tta_rerun,v5_paper_ft,0,1000,0.9975120000000001,0.9963969500000001,0.998408025,0.026500000000000024,0.9705,0.9715,952,11,0.986,0.7421875

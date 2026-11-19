@@ -89,7 +89,7 @@ def _init():
 def work(task):
     key, name, i, clip = task
     K, n_bits = TASKS[i]
-    msg = "".join(random.Random(620000 + i).choice(ALPHABET) for _ in range(n_bits // 8))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n_bits // 8)))(random.Random(620000 + i))
     cover = cv2.imread(cover_path(name, i))
     st = C.cover_stats(D, cover)
     own = st["K"] if st["K"] is not None else D.FALLBACK_K

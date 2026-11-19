@@ -58,7 +58,7 @@ def stats_work(task):
 
 def embed_work(task):
     key, variant, i, K, n, pair = task
-    msg = "".join(random.Random(424242 + pair).choice(ALPHABET) for _ in range(n // 8))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n // 8)))(random.Random(424242 + pair))
     bits = np.array([(b >> (7 - k)) & 1 for b in msg.encode() for k in range(8)])
     cover = make_cover(variant, i)
     row = dict(key=key, variant=variant, index=i, pair=pair, K=K, n_bits=len(bits), bpp=len(bits) / 65536,

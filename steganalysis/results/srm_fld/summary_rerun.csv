@@ -1,0 +1,2 @@
+method,set,pairs,auc,auc_ci_low,auc_ci_high,pe_min,acc_at_val_thr,stego_flagged,covers_flagged,L,d_sub,val_auc
+deds_v5m,v5_paper_ft,1000,1.0,1.0,1.0,0.0,0.9735,947,0,59,400,1.0

@@ -32,7 +32,7 @@ def work(task):
     target = rng.uniform(0.30, 0.60)
     n_bits = 8 * int(target * 65536 / 8)
     K = math.ceil(n_bits / 1022) - 1
-    msg = "".join(random.Random(320000 + i).choice(ALPHABET) for _ in range(n_bits // 8))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n_bits // 8)))(random.Random(320000 + i))
     rows = []
     for folder in ("finetuned", "baseline"):
         cover = cv2.imread(os.path.join(HERE, folder, f"{i:03d}.png"))

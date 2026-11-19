@@ -108,7 +108,7 @@ def attacks(seed):
 def work(task):
     i, K, n_bits = task
     name = f"{i:03d}.png"
-    msg = "".join(random.Random(424242 + i).choice(ALPHABET) for _ in range(n_bits // 8))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n_bits // 8)))(random.Random(424242 + i))
     bits = np.array([(b >> (7 - k)) & 1 for b in msg.encode() for k in range(8)])
     rows = []
     for cover_set, out_dir in (("finetuned", "stego_finetuned"), ("baseline", "stego_baseline")):

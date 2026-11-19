@@ -26,7 +26,7 @@ def _init():
 def work(task):
     name, K, n_bits = task
     idx = int(name[:3])
-    msg = "".join(random.Random(900000 + idx).choice(ALPHABET) for _ in range(n_bits // 8))
+    msg = (lambda _rng: "".join(_rng.choice(ALPHABET) for _ in range(n_bits // 8)))(random.Random(900000 + idx))
     rows = []
     for tag, folder in (("ft", "finetuned"), ("base", "baseline")):
         cover = cv2.imread(os.path.join(UN, folder, name))
